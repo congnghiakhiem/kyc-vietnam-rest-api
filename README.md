@@ -151,12 +151,29 @@ Can be used to extract information from any or one of the supported documents de
 		
 		`fraudCheck` key will be present only if `id_type` is `id_front` or `id_new_front`
 		
+	* **Horizontal Alignment Check:**
+		Our AI Engine can check if the uploaded document is roughly horizontally aligned or not. We have set this threshold angle to +/-10 degrees, beyond which the document is considered as non-horizontal. To enable this feature, a parameter `horizontalCheck` as `yes` / `no` has to be passed. 
+		
+		The default value of this parameter is `no`. If it is sent as `yes` and the uploaded document is non-horizontal, then an error with HTTP Status Code `433` is returned. If the document is within the threshold limit, the usual response is returned.
+		
+		Example of complete HTTP Error response when a non-horizontal document is uploaded:
+		
+		```json
+		{
+		    "status": "failure",
+		    "statusCode": "433",
+		    "error": "Document Not Horizontal"
+		    ...
+		}
+		```
+		
 	* **Split Address:**
-		We split address extracted from the NationalId into province, ward, street and disctrict, if `enableAddressSplit` is `true`. By default, this value is `false`.
+		We split address extracted from the NationalId into province, ward, street and district, if `enableAddressSplit` is `true`. By default, this value is `false`.
 		
 		If the AI engine is not able to extract `address`, `address_split` will also be absent. Other keys like province, ward, street and district will be absent if the engine is unable to extract them.
 		
 		The response will have key `address_split` inside the key `details`: 
+		
 		
 		```json
 		[{
@@ -320,7 +337,23 @@ Can be used to extract information from any or one of the supported documents de
 				"type" : "id_type"
 			}]
 			```
-
+	* **Horizontal Alignment Check:**
+		Our AI Engine can check if the uploaded document is roughly horizontally aligned or not. We have set this threshold angle to +/-10 degrees, beyond which the document is considered as non-horizontal. To enable this feature, a parameter `horizontalCheck` as `yes` / `no` has to be passed. 
+		
+		The default value of this parameter is `no`. If it is sent as `yes` and the uploaded document is non-horizontal, then an error with HTTP Status Code `433` is returned. If the document is within the threshold limit, the usual response is returned.
+		
+		Example of complete HTTP Error response when a non-horizontal document is uploaded:
+		
+		```json
+		{
+		    "status": "failure",
+		    "statusCode": "433",
+		    "error": "Document Not Horizontal"
+		    ...
+		}
+		```
+		
+		
 	* **Error Response:**
 		There are 3 types of request errors and `HTTP Status Code 400` is returned in all 3 cases:
 		- No Image input
@@ -420,7 +453,23 @@ Can be used to extract information from any or one of the supported documents de
 				"type" : "id_type"
 			}]
 			```
-
+	* **Horizontal Alignment Check:**
+		Our AI Engine can check if the uploaded document is roughly horizontally aligned or not. We have set this threshold angle to +/-10 degrees, beyond which the document is considered as non-horizontal. To enable this feature, a parameter `horizontalCheck` as `yes` / `no` has to be passed. 
+		
+		The default value of this parameter is `no`. If it is sent as `yes` and the uploaded document is non-horizontal, then an error with HTTP Status Code `433` is returned. If the document is within the threshold limit, the usual response is returned.
+		
+		Example of complete HTTP Error response when a non-horizontal document is uploaded:
+		
+		```json
+		{
+		    "status": "failure",
+		    "statusCode": "433",
+		    "error": "Document Not Horizontal"
+		    ...
+		}
+		```
+		
+		
 	* **Error Response:**
 		There are 3 types of request errors and `HTTP Status Code 400` is returned in all 3 cases:
 		- No Image input
