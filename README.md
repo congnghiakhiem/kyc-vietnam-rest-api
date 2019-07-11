@@ -518,7 +518,118 @@ Can be used to extract information from any or one of the supported documents de
 					  -H 'content-type: multipart/form-data;' \
 					  -F 'image1=@image_or_pdf_path1.png'
 
+* **Passport**
+	* **URL**
+		* /readPassport : used for Vietnam Passports
+	* **Method**: `POST`
+	* **Header**
+		- content-type : 'formdata'
+		- appid
+		- appkey
+	* **Request Body**
+		- image1: \<type: Image/PDF file\>
 
+	* **Success Response:**
+	    * **Code:** 200 <br />
+	    * Incase of a properly made request, the response would follow schema.
+
+			```
+			{
+				"status" : "success",
+				"statusCode" : "200",
+				"result" : <resultObject>
+			}
+			```
+
+		    The `resultObject` has the following Schema :
+
+	        ```
+			[{
+				"details" : {
+					"field-1" : {
+					    "value" : "extracted-value-1",
+					    "conf" : <float-value>,
+					    "to-be-reviewed" : "yes/no"
+					},
+					"field-2" : {
+					    "value" : "extracted-value-2",
+					    "conf" : <float-value>,
+					    "to-be-reviewed" : "yes/no"
+					},
+					"field-3" : {
+					    "value" : "extracted-value-3",
+					    "conf" : <float-value>,
+					    "to-be-reviewed" : "yes/no"
+					},
+					..
+				},
+				"type" : "id_type"
+			}]
+			```
+	* **Horizontal Alignment Check:**
+		Our AI Engine can check if the uploaded document is roughly horizontally aligned or not. We have set this threshold angle to +/-10 degrees, beyond which the document is considered as non-horizontal. To enable this feature, a parameter `horizontalCheck` as `yes` / `no` has to be passed. 
+		
+		The default value of this parameter is `no`. If it is sent as `yes` and the uploaded document is non-horizontal, then an error with HTTP Status Code `433` is returned. If the document is within the threshold limit, the usual response is returned.
+		
+		Example of complete HTTP Error response when a non-horizontal document is uploaded:
+		
+		```json
+		{
+		    "status": "failure",
+		    "statusCode": "433",
+		    "error": "Document Not Horizontal"
+		    ...
+		}
+		```
+		
+		
+	* **Error Response:**
+		There are 3 types of request errors and `HTTP Status Code 400` is returned in all 3 cases:
+		- No Image input
+
+			```       
+			{
+				"status": "failure",
+				"statusCode": "400",
+				"error": "API call requires atlest one input image"
+			}
+			```
+
+		- More than 2 image input
+
+			```
+			{
+				"status": "failure",
+				"statusCode": "400",
+				"error": "API call handles only upto 2 images"
+			}
+			```
+
+		- Larger than allowed image input
+
+			```
+			{
+				"status": "failure",
+				"statusCode": "400",
+				"error": "image size cannot be greater than 6MB"
+			}
+			```
+
+		All error messages follow the same syntax with the statusCode and status also being a part of the response body, and `string` error message with the description of the error.
+
+		**Server Errors**
+		We try our best to avoid these errors, but if by chance they do occur the response code will be 5xx.
+
+
+	* **Sample Calls:**
+
+		 - readPassport
+
+			    curl -X POST https://apac.docs.hyperverge.co/v1.1/readPassport \
+					  -H 'appid: xxx' \
+					  -H 'appkey: yyyy' \
+					  -H 'content-type: multipart/form-data;' \
+					  -F 'image1=@image_or_pdf_path1.png'
 * **EVN**
 	*  **URL**
 		* /verifyEVN : used for any of the supported Vietnam Electricity Bills
@@ -624,6 +735,7 @@ Can be used to extract information from any or one of the supported documents de
 |mrc_back| name, address, brand, model, capacity, engine-number, chassis-number, number-plate, price, verification: (name, month-current-registration, year-current-registration, month-first-registration, year-first-registration)
 |dl\_old\_front| dl-number, name, dob, nationality, address, expiry
 |dl\_new\_front| dl-number, name, dob, nationality, address, expiry
+|passport\_front| passport\_num, local\_id\_number, surname, dob, gender, doe, given_name, country\_code, nationality, type
 
 ### Response Structure for Each Type:
 - #### National ID
@@ -739,6 +851,23 @@ Can be used to extract information from any or one of the supported documents de
 	   	}
 	  	```
 
+- #### Passport
+	- type: **passport_front**
+	
+	   	```
+		{
+	    	"passport_num": <type: String, description: Passport number present in the passport MRZ >,
+	    	"local_id_number": <type: String, description: Local ID Number of the passport holder eg. National ID Number>,
+	    	"surname": <type: String, description: Surname of the passport holder>,
+	   	"dob": <type: String, description: Date of Birth of the passport holder>,
+	    	"gender": <type: String, description: Gender of the passport holder eg. M for Male , F for Female>,
+	    	"doe": <type: String, description: Date of Expiry of the passport>,
+	    	"given_name": <type: String, description: Name of the passport holder>,
+	    	"country_code": <type: String, description: The Country to which the passport belogs to eg. VNM for Vitnam>,
+	    	"nationality": <type: String, description: Nationality of the passport holder>,
+	    	"type": <type: String, description: Document type from MRZ  eg. P for Passport>
+		}
+	   	```
 ## Confidence Score for Prediction
 
 For any field which is extracted from the document, the confidence score would be reported in the key `"conf"`. The score would be a float value between 0 and 1.  The key `"to-be-reviewed"` takes the values `"yes/no"`, `yes` indicates that the field is flagged for manual review.
