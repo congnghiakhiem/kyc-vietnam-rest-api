@@ -876,8 +876,7 @@ For any field which is extracted from the document, the confidence score would b
 
 These optional params are used to facilitate better debugging of the system. 
 
-`clientId` is a unique identifier that is assigned to the end customer by the API user. This would need to be passed in the request body. And the parameter, would be the 
-same for the different API calls made for the of same customer.
+`transactionId` is a unique identifier that is assigned to the end customer by the API user. This would need to be passed in the request headers. Across different API calls made for the same customer, the transactionId would be same.
 
 By default, the input images are not stored by HyperVerge systems, however, if the user sets the optional parameter `dataLogging` to string value "yes", then the images will be stored and the requestId can be 
 provided to HyperVerge to check the uploaded image incase of an inaccurate extraction.
