@@ -207,8 +207,10 @@ Can be used to extract information from any or one of the supported documents de
 		
 		
 	* **Error Response:**
-		There are 3 types of request errors and `HTTP Status Code 400` is returned in all 3 cases:
+		There are 4 types of request errors 		
 		- No Image input
+
+		`HTTP Status Code 400` is returned
 
 			```       
 	      	{
@@ -220,6 +222,8 @@ Can be used to extract information from any or one of the supported documents de
 
 		- More than 2 image input
 
+		`HTTP Status Code 400` is returned
+
 			```       
 	      	{
 	        	"status": "failure",
@@ -230,13 +234,28 @@ Can be used to extract information from any or one of the supported documents de
 
 		- Larger than allowed image input
 
+		`HTTP Status Code 400` is returned
+
 			```       
 	      	{
 	        	"status": "failure",
 	        	"statusCode": "400",
 	        	"error": "image size cannot be greater than 6MB"
 	      	}
-			```       
+			```
+		
+		- No Document is Detected
+
+		`HTTP Status Code 422` is returned
+		
+		```
+		{
+			"status": "failure",
+			"statusCode": "422",
+			"error": "Vietnam National ID Not Detected",
+			"requestId": "1563468592418-754048f1-9031-49c2-a41b-70b606deecee"
+		}
+		```     
 
 		All error messages follow the same syntax with the statusCode and status also being a part of the response body, and `string` error message with the description of the error.
 
@@ -355,36 +374,56 @@ Can be used to extract information from any or one of the supported documents de
 		
 		
 	* **Error Response:**
-		There are 3 types of request errors and `HTTP Status Code 400` is returned in all 3 cases:
+		There are 4 types of request errors 		
 		- No Image input
 
+		`HTTP Status Code 400` is returned
+
 			```       
-			{
-				"status": "failure",
-				"statusCode": "400",
-				"error": "API call requires atlest one input image"
-			}
+	      	{
+	        	"status": "failure",
+	        	"statusCode": "400",
+	        	"error": "API call requires atlest one input image"
+	      	}
 			```
 
 		- More than 2 image input
 
-			```
-			{
-				"status": "failure",
-				"statusCode": "400",
-				"error": "API call handles only upto 2 images"
-			}
-			```
+		`HTTP Status Code 400` is returned
+
+			```       
+	      	{
+	        	"status": "failure",
+	        	"statusCode": "400",
+	        	"error": "API call handles only upto 2 images"
+	      	}
+			```       
 
 		- Larger than allowed image input
 
+		`HTTP Status Code 400` is returned
+
+			```       
+	      	{
+	        	"status": "failure",
+	        	"statusCode": "400",
+	        	"error": "image size cannot be greater than 6MB"
+	      	}
 			```
-			{
-				"status": "failure",
-				"statusCode": "400",
-				"error": "image size cannot be greater than 6MB"
-			}
-			```
+		
+		- No Document is Detected
+
+		`HTTP Status Code 422` is returned
+		
+		```
+		{
+			"status": "failure",
+			"statusCode": "422",
+			"error": "Document Not Detected",
+			"requestId": "1563468592418-754048f1-9031-49c2-a41b-70b606deecee"
+		}
+		```     
+
 
 		All error messages follow the same syntax with the statusCode and status also being a part of the response body, and `string` error message with the description of the error.
 
@@ -471,36 +510,55 @@ Can be used to extract information from any or one of the supported documents de
 		
 		
 	* **Error Response:**
-		There are 3 types of request errors and `HTTP Status Code 400` is returned in all 3 cases:
+		There are 4 types of request errors 		
 		- No Image input
 
+		`HTTP Status Code 400` is returned
+
 			```       
-			{
-				"status": "failure",
-				"statusCode": "400",
-				"error": "API call requires atlest one input image"
-			}
+	      	{
+	        	"status": "failure",
+	        	"statusCode": "400",
+	        	"error": "API call requires atlest one input image"
+	      	}
 			```
 
 		- More than 2 image input
 
-			```
-			{
-				"status": "failure",
-				"statusCode": "400",
-				"error": "API call handles only upto 2 images"
-			}
-			```
+		`HTTP Status Code 400` is returned
+
+			```       
+	      	{
+	        	"status": "failure",
+	        	"statusCode": "400",
+	        	"error": "API call handles only upto 2 images"
+	      	}
+			```       
 
 		- Larger than allowed image input
 
+		`HTTP Status Code 400` is returned
+
+			```       
+	      	{
+	        	"status": "failure",
+	        	"statusCode": "400",
+	        	"error": "image size cannot be greater than 6MB"
+	      	}
 			```
-			{
-				"status": "failure",
-				"statusCode": "400",
-				"error": "image size cannot be greater than 6MB"
-			}
-			```
+		
+		- No Document is Detected
+
+		`HTTP Status Code 422` is returned
+		
+		```
+		{
+			"status": "failure",
+			"statusCode": "422",
+			"error": "Vietnam Driver License Not Detected",
+			"requestId": "1563468592418-754048f1-9031-49c2-a41b-70b606deecee"
+		}
+		```   
 
 		All error messages follow the same syntax with the statusCode and status also being a part of the response body, and `string` error message with the description of the error.
 
