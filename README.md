@@ -116,7 +116,11 @@ Can be used to extract information from any or one of the supported documents de
         
 	* **Fraud Check:**
 		We check two types of fraud:
-		- **Black and White** Check if the image is Black and White. True if `isBlackWhite` is `yes`.
+		- **Black and White** Check if the image is Black and White. This API returns `true` if `isBlackWhite` is set as `yes`.
+		- **Liveness Check** Check if the document uploaded is live or non-live. A parameter `livenessCheck ` as `yes` has to be passed to enable this feature. It has 3 key-value pairs.
+			- `live`: String with values `yes`/`no`. Tells whether the document is live or not.
+			- `liveness-score`: Float with values between 0 and 1. The confidence score for the liveness prediction. This score would only be required for debugging purposes.
+			- `to-be-reviewed`: String with values `yes`/`no`. Yes indicates that it is flagged for manual review.
 		- **Province to National ID Mapping** Fixed mapping exists between the ID number and the province. We check if this holds true. If the ID Number does not match the province, `provinceMismatch` is `yes`.
 		
 		The response will have key `fraudCheck` inside the key `details`: 
@@ -126,7 +130,12 @@ Can be used to extract information from any or one of the supported documents de
 			"details" : {
 				"fraudCheck": {
 				    "isBlackWhite": "yes/no",
-				    "provinceMismatch": "yes/no"
+				    "provinceMismatch": "yes/no",
+				    "liveness": {
+				    	"to-be-reviewed": "no",
+				    	"live": "yes",
+				    	"liveness-score": "0.999998"
+				    }
 				},
 				"field-1" : {
 				    "value" : "extracted-value-1",
@@ -150,7 +159,6 @@ Can be used to extract information from any or one of the supported documents de
 		```
 		
 		`fraudCheck` key will be present only if `id_type` is `id_front` or `id_new_front`
-		
 	* **Horizontal Alignment Check:**
 		Our AI Engine can check if the uploaded document is roughly horizontally aligned or not. We have set this threshold angle to +/-10 degrees, beyond which the document is considered as non-horizontal. To enable this feature, a parameter `horizontalCheck` as `yes` / `no` has to be passed. 
 		
