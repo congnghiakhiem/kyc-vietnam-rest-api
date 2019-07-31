@@ -793,7 +793,7 @@ Can be used to extract information from any or one of the supported documents de
 ## Supported Document Types
 |Types|Fields|
 ---|---
-|id_front| id, name, dob, province
+|id_front| id, address, name, dob, province
 |id_back| doi, province
 |id\_new\_front| id, name, gender, dob, address, doi, doe, province
 |id\_new\_back| doi, doe
