@@ -113,10 +113,27 @@ Can be used to extract information from any or one of the supported documents de
 				"type" : "id_type"
 			}]
 			```
-        
+
+	* **Face Check:**
+		Often, you would want to check if the captured national ID image has a recognisable face in it or not. To enable this feature, a parameter named `faceCheck` has to be passed as `yes`. The response will have a key `face` inside `details` as below:
+
+		```json
+		[{
+			"details" : {
+				"face": {
+				    "present": "yes/no",
+				    "faceString": "<base64 encoded detected face area>"
+				}
+			},
+			"type" : "id_type"
+		}]
+		```
+		This parameter also returns `faceString` which is a base64 encoded detected face area. This can also be used in our [`verifyPair`](https://github.com/hyperverge/face-match-apac-rest-api#api-call-structure) API to match 2 faces.
+
 	* **Fraud Check:**
 		We check two types of fraud:
 		- **Black and White** Check if the image is Black and White. This API returns `true` if `isBlackWhite` is set as `yes`.
+		- **Cut ID card** The Vietnam National ID is cut on the corner by the government body when it has expired and not valid anymore. If a user uploads these images, it can be detected by our AI Engines by passing a parameter, `cutIdCheck` as `yes`. By default, this value is `no`.
 		- **Liveness Check** Check if the document uploaded is live or non-live. A parameter `livenessCheck ` as `yes` has to be passed to enable this feature. It has 3 key-value pairs.
 			- `live`: String with values `yes`/`no`. Tells whether the document is live or not.
 			- `liveness-score`: Float with values between 0 and 1. The confidence score for the liveness prediction. This score would only be required for debugging purposes.
@@ -135,24 +152,9 @@ Can be used to extract information from any or one of the supported documents de
 				    	"to-be-reviewed": "no",
 				    	"live": "yes",
 				    	"liveness-score": "0.999998"
-				    }
-				},
-				"field-1" : {
-				    "value" : "extracted-value-1",
-				    "conf" : <float-value>,
-				    "to-be-reviewed" : "yes/no"
-				},
-				"field-2" : {
-				    "value" : "extracted-value-2",
-				    "conf" : <float-value>,
-				    "to-be-reviewed" : "yes/no"
-				},
-				"field-3" : {
-				    "value" : "extracted-value-3",
-				    "conf" : <float-value>,
-				    "to-be-reviewed" : "yes/no"
-				},
-				..
+				    },
+				    "isIDCut": "no"
+				}
 			},
 			"type" : "id_type"	
 		}]
