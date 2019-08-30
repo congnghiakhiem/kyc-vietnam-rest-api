@@ -131,7 +131,7 @@ Can be used to extract information from any or one of the supported documents de
 		This parameter also returns `faceString` which is a base64 encoded detected face area. This can also be used in our [`verifyPair`](https://github.com/hyperverge/face-match-apac-rest-api#api-call-structure) API to match 2 faces.
 
 	* **Fraud Check:**
-		We check two types of fraud:
+		
 		- **Black and White** Check if the image is Black and White. This API returns `true` if `isBlackWhite` is set as `yes`.
 		- **Cut ID card** The Vietnam National ID is cut on the corner by the government body when it has expired and not valid anymore. If a user uploads these images, it can be detected by our AI Engines by passing a parameter, `cutIdCheck` as `yes`. By default, this value is `no`.
 		- **Liveness Check** Check if the document uploaded is live or non-live. A parameter `livenessCheck ` as `yes` has to be passed to enable this feature. It has 3 key-value pairs.
@@ -139,6 +139,12 @@ Can be used to extract information from any or one of the supported documents de
 			- `liveness-score`: Float with values between 0 and 1. The confidence score for the liveness prediction. This score would only be required for debugging purposes.
 			- `to-be-reviewed`: String with values `yes`/`no`. Yes indicates that it is flagged for manual review.
 		- **Province to National ID Mapping** Fixed mapping exists between the ID number and the province. We check if this holds true. If the ID Number does not match the province, `provinceMismatch` is `yes`.
+		
+		- **Enable all Fraud Checks**
+		Parameter `fraudCheck` with value `yes` can be passed to enable all fraud rules.
+		
+		- **Simple Response**
+		For certain cases we provide confident scores if this is not required, then a parameter `simplifyFraudCheckResponse` can be passed as `yes` for a simple fraud response as `yes` / `no` / `maybe` for the enabled fraud rules.
 		
 		The response will have key `fraudCheck` inside the key `details`: 
 		
@@ -160,7 +166,9 @@ Can be used to extract information from any or one of the supported documents de
 		}]
 		```
 		
-		`fraudCheck` key will be present only if `id_type` is `id_front` or `id_new_front`
+		`fraudCheck` key will be present only if `id_type` is `id_front` or `id_new_front`. 
+		
+
 	* **Horizontal Alignment Check:**
 		Our AI Engine can check if the uploaded document is roughly horizontally aligned or not. We have set this threshold angle to +/-10 degrees, beyond which the document is considered as non-horizontal. To enable this feature, a parameter `horizontalCheck` as `yes` / `no` has to be passed. 
 		
@@ -682,7 +690,20 @@ Can be used to extract information from any or one of the supported documents de
 				"error": "image size cannot be greater than 6MB"
 			}
 			```
+		
+		- No Document is Detected
 
+			`HTTP Status Code 422` is returned
+		
+			```
+			{
+				"status": "failure",
+				"statusCode": "422",
+				"error": "Passport Not Detected",
+				"requestId": "1563468592418-754048f1-9031-49c2-a41b-70b606deecee"
+			}
+			```
+		
 		All error messages follow the same syntax with the statusCode and status also being a part of the response body, and `string` error message with the description of the error.
 
 		**Server Errors**
