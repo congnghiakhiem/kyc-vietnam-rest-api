@@ -133,11 +133,15 @@ Can be used to extract information from any or one of the supported documents de
 	* **Fraud Check:**
 		
 		- **Black and White** Check if the image is Black and White. This API returns `true` if `isBlackWhite` is set as `yes`.
-		- **Cut ID card** The Vietnam National ID is cut on the corner by the government body when it has expired and not valid anymore. If a user uploads these images, it can be detected by our AI Engines by passing a parameter, `cutIdCheck` as `yes`. By default, this value is `no`.
+		
+		- **Cut ID card** The Vietnam Old National ID is cut on the corner by the government body when it has expired and not valid anymore. If a user uploads these old ID cards, it can be detected by our AI Engines by passing a parameter, `cutIdCheck` as `yes`. By default, this value is `no`. 
+		<br><br><b>Please note cut ID card detection is not valid for New National ID cards and Citizen ID Cards. </b>
+		
 		- **Liveness Check** Check if the document uploaded is live or non-live. A parameter `livenessCheck ` as `yes` has to be passed to enable this feature. It has 3 key-value pairs.
 			- `live`: String with values `yes`/`no`. Tells whether the document is live or not.
 			- `liveness-score`: Float with values between 0 and 1. The confidence score for the liveness prediction. This score would only be required for debugging purposes.
 			- `to-be-reviewed`: String with values `yes`/`no`. Yes indicates that it is flagged for manual review.
+			
 		- **Province to National ID Mapping** Fixed mapping exists between the ID number and the province. We check if this holds true. If the ID Number does not match the province, `provinceMismatch` is `yes`.
 		
 		- **Enable all Fraud Checks**
